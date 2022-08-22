@@ -13,7 +13,7 @@ app.use(express.json());
 app.use("/categories", categoriesRoutes);
 app.use("/products", productsRouter);
 
-export default app.listen(3333, () => {
+export default app.listen(3000, () => {
   console.log("Server running");
   startDatabase();
 });

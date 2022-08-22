@@ -6,7 +6,7 @@ const productsByCategoryController = async (req, res) => {
 
     const productCategory = await productsByCategoryService(id);
 
-    if (productCategory === undefined) {
+    if (productCategory.length === 0) {
       return res.status(400).json({
         message: "Category id not found",
       });
