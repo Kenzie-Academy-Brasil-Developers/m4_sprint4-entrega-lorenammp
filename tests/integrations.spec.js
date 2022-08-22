@@ -7,9 +7,9 @@ let testCategory = {
 
 let testProduct = {
   name: `Produto Teste ${Math.floor(Math.random() * 10001)}`,
-  price: `${Math.floor(Math.random() * 1001)}.${
-    Math.floor(Math.random() * 90) + 10
-  }`,
+  price: `${Math.floor(Math.random() * 1001)}.${Math.floor(
+    Math.random() * 90
+  )}`,
 };
 
 describe("Testes rota /categories", () => {
@@ -51,8 +51,7 @@ describe("Testes rota /categories", () => {
     expect(response.body.message).toBeDefined();
     expect(response.body.category.name).toContain("Atualizada");
   });
-})
-
+});
 
 describe("Testes rota /products", () => {
   it("Testando criacao de produto", async () => {
@@ -117,7 +116,6 @@ describe("Testes rota /products", () => {
     expect(response.status).toBe(204);
   });
 });
-
 
 describe("Testando casos de erro nas rotas /categories e /products", () => {
   afterAll(async () => {
