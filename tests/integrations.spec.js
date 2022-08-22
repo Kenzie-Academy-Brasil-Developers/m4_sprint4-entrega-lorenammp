@@ -7,9 +7,9 @@ let testCategory = {
 
 let testProduct = {
   name: `Produto Teste ${Math.floor(Math.random() * 10001)}`,
-  price: `${Math.floor(Math.random() * 1001)}.${Math.floor(
-    Math.random() * 90
-  )}`,
+  price: `${Math.floor(Math.random() * 1001)}.${
+    Math.floor(Math.random() * 90) + 10
+  }`,
 };
 
 describe("Testes rota /categories", () => {
