@@ -1,5 +1,8 @@
 import express from "express";
 import "dotenv/config";
+
+import { startDatabase } from "./database";
+
 import categoriesRoutes from "./routes/categories.routes";
 import productsRouter from "./routes/products.routes";
 
@@ -12,4 +15,5 @@ app.use("/products", productsRouter);
 
 export default app.listen(3333, () => {
   console.log("Server running");
+  startDatabase();
 });

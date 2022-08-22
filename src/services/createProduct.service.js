@@ -1,21 +1,29 @@
 import { v4 as uuidv4 } from "uuid";
-import { products } from "../database";
+import database from "../database";
 
-const createProductService = async (name, price) => {
+const createProductService = async (name, price, category_id) => {
   const newProduct = {
     name,
     price,
-    id: uuidv4(),
+    category_id,
   };
 
-  products.push(newProduct);
+  try {
+    const res = await database.query(
+      `
+      INSERT INTO products
+        (name, price, category_id)
+      VALUES
+        ($1, $2, $3)
+      RETURNING *;
+      `,
+      [newProduct.name, newProduct.price, newProduct.category_id]
+    );
 
-  const response = {
-    message: "Product created",
-    product: newProduct,
-  };
-
-  return response;
+    return res.rows[0];
+  } catch (error) {
+    throw new Error(error);
+  }
 };
 
 export default createProductService;

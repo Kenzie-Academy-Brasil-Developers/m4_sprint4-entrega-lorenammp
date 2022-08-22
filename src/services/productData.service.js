@@ -1,13 +1,15 @@
-import { products } from "../database";
+import database from "../database";
 
-const productDataService = (id) => {
-  const productIndex = products.findIndex((product) => product.id === id);
+const productDataService = async (id) => {
+  try {
+    const res = await database.query(`SELECT * FROM products WHERE id = $1`, [
+      id,
+    ]);
 
-  if (productIndex === -1) {
-    return "Product not found";
+    return res.rows[0];
+  } catch (error) {
+    throw new Error(error);
   }
-
-  return products[productIndex];
 };
 
 export default productDataService;

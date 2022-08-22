@@ -1,19 +1,19 @@
-import { categories } from "../database";
+import database from "../database";
 
-const updateCategoryService = (id, newData) => {
-  const categoryIndex = categories.findIndex((category) => category.id === id);
+const updateCategoryService = async (id, newData) => {
+  try {
+    const res = await database.query(
+      `UPDATE categories
+      SET name = $1
+      WHERE id = $2
+      RETURNING *;`,
+      [newData.name, id]
+    );
 
-  if (categoryIndex === -1) {
-    return "Category not found";
+    return res.rows[0];
+  } catch (error) {
+    throw new Error(error);
   }
-
-  categories[categoryIndex] = { ...categories[categoryIndex], ...newData };
-
-  const updatedCategory = {
-    message: "Category updated",
-    name: categories[categoryIndex],
-  };
-  return updatedCategory;
 };
 
 export default updateCategoryService;

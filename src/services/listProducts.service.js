@@ -1,9 +1,13 @@
-import { products } from "../database";
+import database, { products } from "../database";
 
-const listProductsService = () => {
-  const productsList = products;
+const listProductsService = async () => {
+  try {
+    const res = await database.query(`SELECT * FROM products;`, []);
 
-  return productsList;
+    return res.rows;
+  } catch (error) {
+    throw new Error(error);
+  }
 };
 
 export default listProductsService;

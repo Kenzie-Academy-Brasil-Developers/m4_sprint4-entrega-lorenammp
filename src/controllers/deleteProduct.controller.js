@@ -1,15 +1,23 @@
 import deleteProductService from "../services/deleteProduct.service";
 
-const deleteProductController = (req, res) => {
-  const id = req.params.id;
+const deleteProductController = async (req, res) => {
+  try {
+    const id = req.params.id;
 
-  const deletedProduct = deleteProductService(id);
+    const deletedProduct = await deleteProductService(id);
 
-  if (deletedProduct === 1) {
-    return res.json();
+    if (deletedProduct === 0) {
+      return res.status(400).json({
+        message: "Product id not found",
+      });
+    }
+
+    return res.status(204).json(deletedProduct);
+  } catch (error) {
+    return res.status(400).json({
+      message: error.message,
+    });
   }
-
-  return res.json(deletedProduct);
 };
 
 export default deleteProductController;

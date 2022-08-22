@@ -1,13 +1,15 @@
-import { categories } from "../database";
+import database from "../database";
 
-const categoryDataService = (id) => {
-  const categoryIndex = categories.findIndex((category) => category.id === id);
+const categoryDataService = async (id) => {
+  try {
+    const res = await database.query(`SELECT * FROM categories WHERE id = $1`, [
+      id,
+    ]);
 
-  if (categoryIndex === -1) {
-    return "Category not found";
+    return res.rows[0];
+  } catch (error) {
+    throw new Error(error);
   }
-
-  return categories[categoryIndex];
 };
 
 export default categoryDataService;

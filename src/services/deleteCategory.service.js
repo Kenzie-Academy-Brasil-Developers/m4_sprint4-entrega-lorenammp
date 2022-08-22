@@ -1,15 +1,15 @@
-import { categories } from "../database";
+import database from "../database";
 
-const deleteCategoryService = (id) => {
-  const categoryIndex = categories.findIndex((category) => category.id === id);
+const deleteCategoryService = async (id) => {
+  try {
+    const res = await database.query(`DELETE FROM categories WHERE id = $1`, [
+      id,
+    ]);
 
-  if (categoryIndex === -1) {
-    return "Category not found";
+    return res.rowCount;
+  } catch (error) {
+    throw new Error(error);
   }
-
-  categories.splice(categoryIndex, 1);
-
-  return 1;
 };
 
 export default deleteCategoryService;

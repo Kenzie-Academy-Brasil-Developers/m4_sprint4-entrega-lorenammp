@@ -1,20 +1,22 @@
-import { v4 as uuidv4 } from "uuid";
-import { categories } from "../database";
+import database from "../database";
 
 const createCategoryService = async (name) => {
-  const newCategory = {
-    name,
-    id: uuidv4(),
-  };
+  try {
+    const res = await database.query(
+      `
+      INSERT INTO categories
+        (name)
+      VALUES
+        ($1)
+      RETURNING *;
+      `,
+      [name]
+    );
 
-  categories.push(newCategory);
-
-  const response = {
-    message: "Category created",
-    category: newCategory,
-  };
-
-  return response;
+    return res.rows[0];
+  } catch (error) {
+    throw new Error(error);
+  }
 };
 
 export default createCategoryService;

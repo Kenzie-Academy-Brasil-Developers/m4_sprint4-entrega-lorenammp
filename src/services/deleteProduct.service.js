@@ -1,15 +1,15 @@
-import { products } from "../database";
+import database from "../database";
 
-const deleteProductService = (id) => {
-  const productIndex = products.findIndex((product) => product.id === id);
+const deleteProductService = async (id) => {
+  try {
+    const res = await database.query(`DELETE FROM products WHERE id = $1`, [
+      id,
+    ]);
 
-  if (productIndex === -1) {
-    return "Product not found";
+    return res.rowCount;
+  } catch (error) {
+    throw new Error(error);
   }
-
-  products.splice(productIndex, 1);
-
-  return 1;
 };
 
 export default deleteProductService;

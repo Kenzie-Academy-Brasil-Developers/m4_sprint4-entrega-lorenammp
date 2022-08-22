@@ -1,11 +1,23 @@
 import categoryDataService from "../services/categoryData.service.";
 
-const categoryDataController = (req, res) => {
-  const id = req.params.id;
+const categoryDataController = async (req, res) => {
+  try {
+    const id = req.params.id;
 
-  const category = categoryDataService(id);
+    const category = await categoryDataService(id);
 
-  return res.json(category);
+    if (category === undefined) {
+      return res.status(400).json({
+        message: "Category id not found",
+      });
+    }
+
+    return res.status(200).json(category);
+  } catch (error) {
+    return res.status(400).json({
+      message: error.message,
+    });
+  }
 };
 
 export default categoryDataController;
